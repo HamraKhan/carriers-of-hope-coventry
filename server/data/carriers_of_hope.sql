@@ -23,7 +23,8 @@ CREATE TABLE members (
 CREATE TABLE products (
     id               SERIAL PRIMARY KEY,
     product_name     VARCHAR(30) NOT NULL,
-    category_name    VARCHAR(30) NOT NULL
+    category_name    VARCHAR(30) NOT NULL,
+    quantity         INT NOT NULL
 );
 
 CREATE TABLE orders (
