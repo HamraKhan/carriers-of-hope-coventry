@@ -1,4 +1,4 @@
-const pgClient =require('../db.config')
+const pgClient = require('../config/db')
 
 exports.getAllProducts= (req, res) =>{
   pgClient.query('SELECT * FROM products' )

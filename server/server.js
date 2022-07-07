@@ -3,7 +3,9 @@ const cors = require('cors');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
 const products = require('./routes/products')
+const members = require('./routes/members');
 const orders = require("./routes/orders");
 
 app.use(cors());
@@ -31,6 +33,7 @@ app.use("/orders", orders);
 
 
 app.use('/products',products)
+app.use('/members', members)
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);

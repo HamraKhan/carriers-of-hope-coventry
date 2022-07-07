@@ -1,5 +1,5 @@
 let router = require("express").Router();
-let products = require('../dal/productsDal');
+let products = require('../dal/productsDAL');
 
   router.post("/", products.createProduct); // Create a new Collection
   router.get("/", products.getAllProducts);  // Retrieve all Collections
