@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { getOrders } = require("../service/orders");
+const { getOrders, addOrder } = require("../service/orders");
 
 router.get('/', async (req, res) => {
     // const userId = getUserIdFromSession()
@@ -18,7 +18,13 @@ router.get('/:id', (req, res) => {
 })
 
 router.post("/", (req, res) => {
-
+    addOrder(req.body).then((orderInsertStatus) => {
+        res.status(orderInsertStatus.statusCode)
+            .json(orderInsertStatus.message)
+    }).catch(err => {
+        console.log("insert order error: " + err);
+        res.status(500);
+    });
 });
 
 router.put("/:id", (req, res) => {
