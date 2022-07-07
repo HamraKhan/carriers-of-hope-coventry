@@ -1,0 +1,4 @@
+//this is a sample copy of what an .env file should contain (see below). We need to have our own .env files to create on our local machines.
+//I have added .env to gitignore so that when we commit we're not commiting the .env file as well
+
+DATABASE_URL=postgres://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE_NAME>

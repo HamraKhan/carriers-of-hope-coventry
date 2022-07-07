@@ -1,6 +1,9 @@
 DROP TABLE if exists products CASCADE;
 DROP TABLE if exists members CASCADE;
-drop table if exists orders;
+DROP TABLE if exists orders CASCADE;
+DROP TABLE if exists order_item CASCADE;
+DROP TABLE if exists cart CASCADE;
+DROP TABLE if exists cart_item CASCADE;
 
 
 CREATE TABLE members (
@@ -20,18 +23,35 @@ CREATE TABLE members (
 CREATE TABLE products (
     id               SERIAL PRIMARY KEY,
     product_name     VARCHAR(30) NOT NULL,
-    category_name    VARCHAR(30) NOT NULL 
+    category_name    VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE orders (
     id              SERIAL PRIMARY KEY,
     order_date      DATE NOT NULL,
     order_ref       VARCHAR(10) NOT NULL,
+    member_id       INT REFERENCES members(id)
+);
+
+CREATE TABLE order_item (
+    id              SERIAL PRIMARY KEY,
     quantity        INT NOT NULL,
-    member_id       INT REFERENCES members(id),
+    order_id        INT REFERENCES orders(id),
     product_id      INT REFERENCES products(id)
 );
 
+CREATE TABLE cart (
+    id              SERIAL PRIMARY KEY,
+    member_id       INT REFERENCES members(id)
+);
+
+CREATE TABLE cart_item (
+    id              SERIAL PRIMARY KEY,
+    cart_id         INT REFERENCES cart(id),
+    product_id      INT REFERENCES products(id),
+    created_at      TIMESTAMP DEFAULT NULL,
+    quantity        INT NOT NULL
+);
 
 INSERT INTO members (first_name, last_name, email, address, city, postcode, country, telephone, password, isAdmin) 
   VALUES ('John','Smith','j.smith@johnsmith.org','11 New Road','Liverpool','L10 2AB','UK',12345678910, 'johnsmith', FALSE),
@@ -43,26 +63,52 @@ INSERT INTO members (first_name, last_name, email, address, city, postcode, coun
          ('Olga','Olga','o.olga@johnsmith.org','17 New Road','London','L10 2AB','UK', 78901234567, 'olgaolga', TRUE);
 
 
-INSERT INTO products (product_name, category_name)
-    VALUES   ('Toaster', 'Kitchen and Utility'),
-            ('Bed Double', 'Furniture and Beds'),
-            ('Bath Mat', 'Bath'),
-            ('Kids Rug', 'Rugs'),
-            ('Dinner Set(4Person', 'Kitchen and Utility'),
-            ('Towel(2big and 2 small)' ,'Bath'),
-            ('Sofa', 'Furniture and Beds'),
-            ('Wardrobe', 'Furniture and Beds'),
-            ('Nappies', 'Baby and Kids'),
-            ('Window Curtain(grey, 2pair)','Curtains'),
-            ('Dining table', 'Kitchen and Utility'),
-            ('Mattress', 'Bath');
+INSERT INTO products (product_name, category_name, quantity)
+    VALUES   ('Toaster', 'Kitchen and Utility', 1),
+            ('Bed Double', 'Furniture and Beds', 1),
+            ('Bath Mat', 'Bath', 1),
+            ('Kids Rug', 'Rugs', 1),
+            ('Dinner Set(4Person', 'Kitchen and Utility', 1),
+            ('Towel(2big and 2 small)' ,'Bath', 1),
+            ('Sofa', 'Furniture and Beds', 1),
+            ('Wardrobe', 'Furniture and Beds', 1),
+            ('Nappies', 'Baby and Kids', 1),
+            ('Window Curtain(grey, 2pair)','Curtains', 1),
+            ('Dining table', 'Kitchen and Utility', 1),
+            ('Mattress', 'Bath', 1);
 
 
-INSERT INTO orders (order_date, order_ref, quantity, member_id, product_id) VALUES 
-('2019-08-01', 'ORD001', 1, 1, 1),
-('2019-07-15', 'ORD001', 1, 2, 2),
-('2019-07-11', 'ORD001', 1, 3, 3),
-('2019-05-01', 'ORD001', 1, 4, 4),
-('2019-05-29', 'ORD001', 1, 5, 5),
-('2019-04-01', 'ORD001', 1, 6, 6),
-('2019-04-02', 'ORD001', 1, 7, 7);
+INSERT INTO orders (order_date, order_ref, member_id) VALUES 
+('2019-08-01', 'ORD001', 1),
+('2019-07-15', 'ORD001', 2),
+('2019-07-11', 'ORD001', 3),
+('2019-05-01', 'ORD001', 4),
+('2019-05-29', 'ORD001', 5),
+('2019-04-01', 'ORD001', 6),
+('2019-04-02', 'ORD001', 7);
+
+
+INSERT INTO order_item (quantity, order_id, product_id) VALUES  
+(1, 1, 6),
+(1, 2, 2),
+(1, 3, 5),
+(1, 4, 3),
+(1, 5, 1);
+
+
+INSERT INTO cart (member_id) VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6);
+
+
+INSERT INTO cart_item (cart_id, product_id, quantity, created_at) VALUES
+(1, 1, 1, NULL),
+(2, 2, 1, NULL),
+(3, 3, 1, NULL),
+(4, 4, 1, NULL),
+(5, 5, 1, NULL),
+(6, 6, 1, NULL);

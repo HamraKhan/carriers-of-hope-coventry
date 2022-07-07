@@ -3,19 +3,34 @@ const cors = require('cors');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
 const products = require('./routes/products')
 const members = require('./routes/members');
+const orders = require("./routes/orders");
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// GET "/"
+
 app.get('/', (req, res) => {
-  // Delete this line after you've confirmed your server is running
-  res.send({
+    res.send({
     express: 'Your Backend Service is Running.',
   });
 });
+
+
+app.use("/orders", orders);
+
+// // Have Node serve the files for our built React app
+// //this serves the react app files to users machine from heroku
+// app.use(express.static(path.resolve(__dirname, '../client/build'))); 
+
+
+// // All other GET requests not handled before will return our React app
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+// });
+
 
 app.use('/products',products)
 app.use('/members', members)
