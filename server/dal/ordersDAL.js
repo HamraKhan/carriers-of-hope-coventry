@@ -8,7 +8,6 @@ async function selectOrdersByMemberId(memberId) {
         `order_date AS orderDate, ` +
         `order_ref AS orderRef, ` +
         `member_id AS memberId, ` +
-        `order_ref AS orderRef, ` +
         `order_status AS orderStatus ` +
         `FROM orders WHERE member_id = ${memberId};`);
 }
