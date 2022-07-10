@@ -1,4 +1,5 @@
 const pgClient = require("../config/postgres");
+const format = require("pg-format");
 
 async function selectOrdersByMemberId(memberId) {
   return await pgClient.pool
@@ -6,7 +7,7 @@ async function selectOrdersByMemberId(memberId) {
       `SELECT id, ` +
         `order_date AS orderDate, ` +
         `order_ref AS orderRef, ` +
-        `member_id AS memberId ` +
+        `member_id AS memberId, ` +
         `order_ref AS orderRef, ` +
         `order_status AS orderStatus ` +
         `FROM orders WHERE member_id = ${memberId};`);
