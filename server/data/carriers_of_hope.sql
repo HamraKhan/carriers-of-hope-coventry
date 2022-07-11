@@ -3,7 +3,7 @@ DROP TABLE if exists members CASCADE;
 DROP TABLE if exists orders CASCADE;
 DROP TABLE if exists order_item CASCADE;
 DROP TABLE if exists cart CASCADE;
-DROP TABLE if exists cart_item CASCADE;
+DROP TABLE if exists cart_item;
 
 
 CREATE TABLE members (
@@ -23,7 +23,8 @@ CREATE TABLE members (
 CREATE TABLE products (
     id               SERIAL PRIMARY KEY,
     product_name     VARCHAR(30) NOT NULL,
-    category_name    VARCHAR(30) NOT NULL
+    category_name    VARCHAR(30) NOT NULL,
+    quantity         INT NOT NULL
 );
 
 CREATE TABLE orders (
@@ -75,7 +76,7 @@ INSERT INTO products (product_name, category_name, quantity)
             ('Nappies', 'Baby and Kids', 1),
             ('Window Curtain(grey, 2pair)','Curtains', 1),
             ('Dining table', 'Kitchen and Utility', 1),
-            ('Mattress', 'Bath', 1);
+            ('Mattress', 'Furniture and Beds', 1);
 
 
 INSERT INTO orders (order_date, order_ref, member_id) VALUES 
